@@ -4,13 +4,15 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import IndexScreen from "./screens/IndexScreen";
 import CreateScreen from "./screens/CreateScreen";
-import { BlogProvider } from "./contex/BlogContextUseReducer1";
+import { Provider } from "./contex/BlogContextUseReducer";
 
-export default function App() {
+
   const Stack = createNativeStackNavigator();
+  
+export default function App() {
 
   return (
-    <BlogProvider>
+    <Provider>
       <NavigationContainer>
         {/*Tüm ekranlarda "blog uygulamsı gözükmesi için  screenOptions={{headerTitle:"Blog Uygulaması"}} yapısı kullanılır.*/}
         <Stack.Navigator screenOptions={{ headerTitle: "Blog Uygulaması" }}>
@@ -18,6 +20,6 @@ export default function App() {
           <Stack.Screen name="Create" component={CreateScreen} />
         </Stack.Navigator>
       </NavigationContainer>
-    </BlogProvider>
+    </Provider>
   );
 }

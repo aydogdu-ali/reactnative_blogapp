@@ -1,45 +1,39 @@
-import React, { useState, useReducer } from "react";
+import CreateDataContext from "./CreateDataContext";
 
-const BlogContextUseReducer = React.createContext();
-
-// burada react ta bulunan contexApi yapısı kullanıyoruz.
-//Bunu tüm ekranlarda kullanmak için app.js de sarmalıyoruz.
-
-
-//reducer fonksiyonunu yazıyoruz.
-const blogReducer = (state, action) =>{
-  switch(action.type)
-  {
-// ekleme caseyini tanımlıyoruz.
+const blogReducer = (state, action) => {
+  // type göre yapılacak actions tanımlıyoruz.
+  switch (action.type) {
     case "add_blogpost":
-      return [...state, {title:"Angular"}];
-      default:
-        return state
+      return [
+        ...state,
+        { id: Math.floor(Math.random() * 999999), title: "Vue " },
+      ];
 
+    case "delete_blogpost":
+      return state.filter((blogPost) => blogPost.id !== action.payload);
+
+    default:
+      return state;
   }
-}
-
-export const BlogProvider = ({ children }) => {
-
-  const [blogPost, dispatch] = useReducer(blogReducer, [
-    { title: "React Native" },
-    { title: "Django App" },
-  ]);
-
-
-  
-  // Method ekleyrek yeni kurs başlığı ekleme yöntemi.
-  const addBlogPost = () => {
-    dispatch({type:"add_blogpost"});
-  };
-
-  return (
-    <BlogContextUseReducer.Provider value={{ data: blogPost, addBlogPost }}>
-      {children}
-    </BlogContextUseReducer.Provider>
-  );
 };
 
-// BlogContext diğer yerlerde kullanmak için dışarı açıyoruz.
-export default  BlogContextUseReducer;
+// ekleme fonksiyonu
+const addBlogPost = (dispatch) => {
+  return () => {
+    dispatch({ type: "add_blogpost" });
+  };
+};
 
+// silme fonksiyonunu tanımlıyoruz.
+const deleteBlogPost = (dispatch) => {
+  return (id) => {
+    dispatch({ type: "delete_blogpost", payload: id });
+  };
+};
+
+// diper componentlerin kullanımına açıyoruz.
+export const { Context, Provider } = CreateDataContext(
+  blogReducer,
+  { addBlogPost, deleteBlogPost },
+  []
+);
