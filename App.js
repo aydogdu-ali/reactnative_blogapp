@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import IndexScreen from "./screens/IndexScreen";
 import CreateScreen from "./screens/CreateScreen";
-import { BlogProvider } from "./contex/BlogContext";
+import { BlogProvider } from "./contex/BlogContextUseReducer1";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -21,5 +21,3 @@ export default function App() {
     </BlogProvider>
   );
 }
-
-

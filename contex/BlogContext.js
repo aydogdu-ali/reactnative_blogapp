@@ -1,23 +1,30 @@
-
-import React from 'react'
+import React, { useState } from "react";
 
 const BlogContext = React.createContext();
 
+// burada react ta bulunan contexApi yapısı kullanıyoruz.
+//Bunu tüm ekranlarda kullanmak için app.js de sarmalıyoruz.
 
-// burada react ta bulunan contexApi yapısı kullanıyoruz. Bunu tüm ekranlarda kullanmak için app.js de sarmalıyoruz.
+export const BlogProvider = ({ children }) => {
+  const [blogPost, setBlogPost] = useState([
+    { title: "React Native" },
+    { title: "Django App" },
+  ]);
 
+  // verinin array içinde olduğu durumlarda kullanımı.
 
-export const BlogProvider = ({children}) =>{
+  // Method ekleyrek yeni kurs başlığı ekleme yöntemi.
+  const addBlogPost = () => {
+    // Burada kursu set eden state ile başlarız varolanları gösteriri sonra üstüne ekleme yapar. 
+    return setBlogPost([...blogPost, { title: "Vue Js" }]);
+  };
 
-    // verinin array içinde olduğu durumlarda kullanımı.
- const blogPost = [{ title: "React Native" }, { title: "Django App" }];
-
-    return (
-      <BlogContext.Provider value={blogPost}>
-        {children}
-      </BlogContext.Provider>
-    );
-}
+  return (
+    <BlogContext.Provider value={{ data: blogPost, addBlogPost }}>
+      {children}
+    </BlogContext.Provider>
+  );
+};
 
 // BlogContext diğer yerlerde kullanmak için dışarı açıyoruz.
 export default BlogContext;
